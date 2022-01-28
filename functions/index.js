@@ -24,14 +24,11 @@ const functions = require('firebase-functions');
 const admin = require('firebase-admin');
 admin.initializeApp();
 
+
 const sgMail = require('@sendgrid/mail'); 
 sgMail.setApiKey(functions.config().sendgrid.key);
-const template_id_pcs = 'd-ff7a8957a26544f1be2a83a4240ab4b2';
-const template_id_supplier = 'd-ff7a8957a26544f1be2a83a4240ab4b2';
-const sender_mail = 'fjcc81@gmail.com';
-const receiver_pcs_mail = 'fjcc81@hotmail.com';
-// [END import]
 
+// [END import]
 
 /*exports.changeEta = functions.https.onRequest(async (req, res) => {
 
@@ -56,6 +53,11 @@ const receiver_pcs_mail = 'fjcc81@hotmail.com';
 
 exports.updated_eta_visit= functions.firestore.document('/visits/{documentId}')
     .onUpdate(async (change, context) => {
+
+      const template_id_pcs = 'd-ff7a8957a26544f1be2a83a4240ab4b2';
+      const template_id_supplier = 'd-ff7a8957a26544f1be2a83a4240ab4b2';
+      const sender_mail = 'fjcc81@gmail.com';
+      const receiver_pcs_mail = 'fjcc81@hotmail.com';
 
       // Se genera un nuevo mensaje en mail_message con destino PCS (con el EDI XMl adjunto en Base64 y haciendo uso de plantilla SendGrid: 
       //    -> email destino email hardcodeado 
@@ -288,7 +290,6 @@ exports.updated_eta_visit= functions.firestore.document('/visits/{documentId}')
       return "OK";
 
     });
-
 
 exports.notify_new_mail_message= functions.firestore.document('/mail_message/{documentId}')
     .onCreate(async (snap, context) => {
