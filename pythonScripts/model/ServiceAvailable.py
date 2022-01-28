@@ -53,3 +53,7 @@ class ServiceAvailable:
 
     def print(self):
         print("ServiceAvailable: Company = {}. Type = {}".format(self.company, self.type))
+
+    @classmethod
+    def find_service_available(cls, service_available_ref, services_availables):
+        return next(filter(lambda service_available: service_available.id == service_available_ref, services_availables), None)

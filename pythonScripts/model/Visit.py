@@ -74,5 +74,12 @@ class Visit:
         atd = Visit.get_timestamp_value(json_, "atd")
         return Visit(id_, visitNumber, vessel_name, imo, company, eta, etd, ata, atd, call_sign, code_zone_operation, port_previous, port_next)
 
-    def print(self):
-        print("Visit: {}. Vessel = {}".format(self.visitNumber, self.vesselName))
+    def print(self, index=None):
+        index_to_show = ""
+        if index is not None:
+            index_to_show = "{}) ".format(index)
+        print("{}Visit: {}. Vessel = {}".format(index_to_show, self.visitNumber, self.vesselName))
+
+    @classmethod
+    def find_visit(cls, visit_id, visits):
+        return next(filter(lambda visit: visit.id == visit_id, visits), None)
