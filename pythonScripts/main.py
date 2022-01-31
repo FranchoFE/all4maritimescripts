@@ -99,10 +99,10 @@ def create_services(services_to_create, visits, services_availables):
     return results
 
 
-def actualize_atas(visit, time_to_set):
-    visit.ata = time_to_set
-    patch_url = URL + "visits/" + visit.id + "?updateMask.fieldPaths=ata"
-    result = requests.patch(patch_url, visit.get_json(("ata", )))
+def actualize_etas(visit, time_to_set):
+    visit.eta = time_to_set
+    patch_url = URL + "visits/" + visit.id + "?updateMask.fieldPaths=eta"
+    result = requests.patch(patch_url, visit.get_json(("eta", )))
     print("Actualice visit result {}".format(result))
     time.sleep(TIME_TO_SLEEP)
 
@@ -149,7 +149,7 @@ def create_services_available(num_services, companies, types=("BUNKERING", "MARP
 
 
 def get_time_from_string(time_to_set_str):
-    if len(time_to_set_str) > 0 and time_to_set_end_str != "-1":
+    if len(time_to_set_str) > 0 and time_to_set_str != "-1":
         time_to_set = datetime.strptime(time_to_set_str, "%Y-%m-%d %H:%M")
     else:
         time_to_set = datetime.now()
@@ -176,9 +176,9 @@ if __name__ == '__main__':
     print("Total de escalas: {}".format(len(visits_)))
 
     print("\n")
-    actualize_ata = True
+    actualize_eta = True
     show_visits = True
-    while actualize_ata:
+    while actualize_eta:
         if show_visits:
             print("Escalas: ")
             index = 1
@@ -186,13 +186,13 @@ if __name__ == '__main__':
                 visit.print(index)
                 index += 1
             show_visits = False
-        visit_index = input("¿Quiere actualizar el ata de alguna escala? (Introduzca el índice) ")
-        if visit_index.isdigit() and 0 < int(visit_index) < len(visits_):
+        visit_index = input("¿Quiere actualizar el eta de alguna escala? (Introduzca el índice) ")
+        if visit_index.isdigit() and 0 < int(visit_index) <= len(visits_):
             time_to_set_str = input("¿Qué hora quiere establecer? ({}) ".format(datetime.now().strftime("%Y-%m-%d %H:%M")))
             time_to_set = get_time_from_string(time_to_set_str)
-            actualize_atas(visits_[int(visit_index)-1], time_to_set)
+            actualize_etas(visits_[int(visit_index)-1], time_to_set)
         else:
-            actualize_ata = False
+            actualize_eta = False
     print("Escala no encontrada")
 
     services_ = get_elements_from_url("services", Service)
@@ -212,7 +212,7 @@ if __name__ == '__main__':
                 index += 1
             show_services = False
         service_index = input("¿Quiere actualizar algún servicio? (Introduzca el índice del servicio) ")
-        if service_index.isdigit() and 0 < int(service_index) < len(services_):
+        if service_index.isdigit() and 0 < int(service_index) <= len(services_):
             time_to_set_start_str = input("¿Qué hora quiere establecer al inicio del servicio? ({}) (-1 no actualizar) ".format(datetime.now().strftime("%Y-%m-%d %H:%M")))
             time_to_set_end_str = input("¿Qué hora quiere establecer al final del servicio? ({})  (-1 no actualizar) ".format(datetime.now().strftime("%Y-%m-%d %H:%M")))
             time_to_set_start = get_time_from_string(time_to_set_start_str)

@@ -43,8 +43,8 @@ class Visit:
             result += Visit.add_field("etd", "timestampValue", self.etd)
             result += Visit.add_field("ata", "timestampValue", self.ata)
             result += Visit.add_field("atd", "timestampValue", self.atd)
-        elif "ata" in fields_to_send:
-            result += Visit.add_field("ata", "timestampValue", self.ata)
+        elif "eta" in fields_to_send:
+            result += Visit.add_field("eta", "timestampValue", self.eta)
         result = result[:-2]
         result += " } }"
 
