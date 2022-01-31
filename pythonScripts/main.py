@@ -8,7 +8,8 @@ from model.ServiceAvailable import ServiceAvailable
 import time
 import random
 
-URL = "http://localhost:8091/v1/projects/vuefutbol/databases/(default)/documents/"
+# URL = "http://localhost:8092/v1/projects/vuefutbol/databases/(default)/documents/"
+URL = "https://firestore.googleapis.com/v1/projects/vuefutbol/databases/(default)/documents/"
 TIME_TO_SLEEP = 0.25
 
 

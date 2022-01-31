@@ -25,8 +25,14 @@ class ServiceAvailable:
         result = "{ \"fields\": { "
         if fields_to_send is None:
             result += ServiceAvailable.add_field("company_ref", "stringValue", self.company)
-            result += ServiceAvailable.add_field("price", "integerValue", self.price)
-            result += ServiceAvailable.add_field("rating", "integerValue", self.rating)
+            if isinstance(self.price, int):
+                result += ServiceAvailable.add_field("price", "integerValue", self.price)
+            else:
+                result += ServiceAvailable.add_field("price", "doubleValue", self.price)
+            if isinstance(self.rating, int):
+                result += ServiceAvailable.add_field("rating", "integerValue", self.rating)
+            else:
+                result += ServiceAvailable.add_field("rating", "doubleValue", self.rating)
             result += ServiceAvailable.add_field("type", "stringValue", self.type)
             result += ServiceAvailable.add_field("unit", "stringValue", self.unit)
         result = result[:-2]
@@ -45,8 +51,16 @@ class ServiceAvailable:
     @staticmethod
     def from_json(id_, json_):
         company = json_["company_ref"]["stringValue"]
-        price = json_["price"]["integerValue"]
-        rating = json_["rating"]["integerValue"]
+        price_field = json_["price"]
+        if "integerValue" in price_field:
+            price = price_field["integerValue"]
+        else:
+            price = price_field["doubleValue"]
+        rating_field = json_["rating"]
+        if "integerValue" in rating_field:
+            rating = rating_field["integerValue"]
+        else:
+            rating = rating_field["doubleValue"]
         type_ = json_["type"]["stringValue"]
         unit = json_["unit"]["stringValue"]
         return ServiceAvailable(id_, company, price, rating, type_, unit)
